@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibes Harian | Kata-Kata Motivasi</title>
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons for modern aesthetic icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Google Fonts: Space Grotesk for a modern, edgy look -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for Mesh Gradient Background and Glassmorphism */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a; /* Deep dark blue */
+            overflow-x: hidden;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animated Background Blobs */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: moveBlobs 10s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: #8b5cf6; /* Purple */
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: #3b82f6; /* Blue */
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            bottom: 20%;
+            left: 20%;
+            width: 40vw;
+            height: 40vw;
+            background: #ec4899; /* Pink */
+            animation-delay: -2s;
+        }
+
+        @keyframes moveBlobs {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(10%, 10%) scale(1.1); }
+            100% { transform: translate(-10%, -10%) scale(0.9); }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Quote Transition Animation */
+        .quote-enter {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .quote-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        /* Custom Toast Notification for Copy action */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: rgba(16, 185, 129, 0.9); /* Emerald Green */
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 12px 24px;
+            position: fixed;
+            z-index: 50;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-weight: 500;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+
+        /* Gradient Text Utility */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #a855f7, #ec4899);
+        }
+        
+        /* Button Hover Effects */
+        .btn-hover-effect {
+            transition: all 0.3s ease;
+        }
+        .btn-hover-effect:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.4);
+        }
+        .btn-hover-effect:active {
+            transform: translateY(1px) scale(0.98);
+        }
+    </style>
+</head>
+<body class="antialiased relative selection:bg-pink-500 selection:text-white flex items-center justify-center">
+
+    <!-- Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-2xl mx-auto px-4 py-12 flex flex-col items-center justify-center relative z-10 min-h-screen">
+        
+        <!-- Header -->
+        <header class="text-center mb-10 w-full">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+                Daily <span class="text-gradient">Vibes</span> ✨
+            </h1>
+            <p class="text-gray-300 text-sm md:text-base font-light">
+                Tekan butang untuk dapatkan dos motivasi harian kau.
+            </p>
+        </header>
+
+        <!-- Quote Card (Glassmorphism) -->
+        <div class="glass-card rounded-3xl w-full p-8 md:p-12 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden group">
+            
+            <!-- Decorative quote marks -->
+            <i class="ph ph-quotes absolute top-4 left-4 md:top-8 md:left-8 text-4xl text-white/10"></i>
+            <i class="ph ph-quotes absolute bottom-4 right-4 md:bottom-8 md:right-8 text-4xl text-white/10 rotate-180"></i>
+
+            <!-- Category Badge -->
+            <div id="quote-category" class="bg-white/10 text-xs md:text-sm px-4 py-1.5 rounded-full mb-6 text-pink-300 border border-pink-500/30 uppercase tracking-widest font-semibold transition-all duration-500">
+                🚀 Ready
+            </div>
+
+            <!-- The Quote Text -->
+            <p id="quote-text" class="text-2xl md:text-4xl font-semibold text-center leading-snug md:leading-tight mb-4 quote-enter-active text-white">
+                "Klik butang di bawah untuk jana semangat baru hari ni!"
+            </p>
+
+            <!-- Metadata (Optional author or explanation) -->
+            <p id="quote-desc" class="text-gray-400 text-sm md:text-base text-center mt-2 h-6 italic">
+                <!-- Description goes here -->
+            </p>
+        </div>
+
+        <!-- Controls / Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 mt-10 w-full justify-center px-4">
+            <!-- Generate Button -->
+            <button id="generate-btn" class="btn-hover-effect bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold py-4 px-8 rounded-2xl flex items-center justify-center gap-2 text-lg shadow-lg w-full sm:w-auto">
+                <i class="ph-bold ph-sparkle text-xl"></i>
+                Bagi Ayat Baru!
+            </button>
+            
+            <!-- Copy Button -->
+            <button id="copy-btn" class="btn-hover-effect glass-card text-white font-semibold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 text-lg hover:bg-white/20 transition-colors w-full sm:w-auto">
+                <i class="ph-bold ph-copy text-xl"></i>
+                Copy
+            </button>
+        </div>
+
+        <!-- Footer / Credits -->
+        <footer class="mt-16 text-center text-gray-500 text-xs md:text-sm">
+            <p>Dibuat untuk vibe positif ✨ | Gen Z Edition</p>
+        </footer>
+
+    </main>
+
+    <!-- Custom Toast for feedback -->
+    <div id="toast" class="flex items-center gap-2 shadow-2xl">
+        <i class="ph-fill ph-check-circle text-xl"></i>
+        <span>Ayat padu berjaya disalin! 🚀</span>
+    </div>
+
+    <script>
+        // Database of Quotes with varying styles & length
+        const quotesDB = [
+            // ☪️ Islamic & Arabic Quotes
+            { text: "<span class='font-serif text-[1.5em] leading-relaxed block mb-3 font-normal'>فَإِنَّ مَعَ الْعُسْرِ يُسْرًا</span>Maksudnya: 'Kerana sesungguhnya sesudah kesulitan itu ada kemudahan.'<br><span class='text-sm text-gray-300'>(Surah Al-Insyirah: 5)</span>", category: "☪️ Islamic & Hikmah", desc: "Setiap ujian pasti ada jalan penyelesaiannya. Yakin dengan janji Tuhan." },
+            { text: "<span class='font-serif text-[1.5em] leading-relaxed block mb-3 font-normal'>لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا</span>Maksudnya: 'Janganlah engkau bersedih, sesungguhnya Allah bersama kita.'<br><span class='text-sm text-gray-300'>(Surah At-Tawbah: 40)</span>", category: "☪️ Islamic & Hikmah", desc: "Pujukan dari langit untuk hati yang sedang lara." },
+            { text: "<span class='font-serif text-[1.5em] leading-relaxed block mb-3 font-normal'>مَنْ صَبَرَ ظَفِرَ</span>Maksudnya: 'Barangsiapa yang bersabar, pasti dia akan beruntung.'", category: "☪️ Mutiara Kata Arab", desc: "Kunci segala kejayaan adalah kesabaran." },
+            { text: "Jangan pernah berhenti berdoa, walau yang diminta tak kunjung tiba. Kadang-kadang Allah tak bagi apa yang kita nak, tapi Dia bagi apa yang kita perlu pada masa yang tepat.", category: "☪️ Islamic & Hikmah", desc: "Sangka baik dengan perancangan Yang Maha Esa." },
+
+            // ❤️ Cinta & Kasih Sayang
+            { text: "<span class='font-serif text-[1.5em] leading-relaxed block mb-3 font-normal'>وَخَلَقْنَاكُمْ أَزْوَاجًا</span>Maksudnya: 'Dan Kami telah menciptakan kamu berpasang-pasangan.'<br><span class='text-sm text-gray-300'>(Surah An-Naba': 8)</span>", category: "❤️ Cinta & Hubungan", desc: "Jodoh pertemuan di tangan Tuhan, sabar menanti yang terbaik." },
+            { text: "Cinta sejati tu bukan tentang siapa yang datang awal dalam hidup kau, tapi tentang siapa yang datang dan tak pernah terfikir untuk pergi tinggalkan kau.", category: "❤️ Romantis", desc: "Hargai orang yang sentiasa ada dalam susah dan senang." },
+            { text: "Kalau dia memang tercipta untuk kau, sejauh mana pun dia pergi, angin akan bawa dia balik. Kalau tak, lepaskan dengan reda. Let it flow bro.", category: "💬 Gen-Z Cinta", desc: "Jangan paksa benda yang bukan milik kita." },
+            { text: "Hati ini ibarat kaca, kalau dah terhempas berderai, dipungut pun melukakan tangan sendiri. Jaga hati pasangan elok-elok, jangan sampai terhiris.", category: "❤️ Kiasan Cinta", desc: "Kepercayaan tu mahal. Sekali hilang, susah nak cari ganti." },
+
+            // 💬 Gen-Z / Slang / Realiti Kehidupan
+            { text: "People come and go, tapi diri kau sendiri tu stay till the end. So stop seeking validation dari orang yang tak appreciate kau. Know your worth!", category: "💬 Gen-Z Realiti", desc: "Sayangi diri sendiri lebih dari segalanya (Self-love)." },
+            { text: "Healing tu healing juga, tapi masa depan kena bina bro. Jangan asyik healing sampai lupa nak bangun dari katil. Keep grinding!", category: "💬 Gen-Z Slang", desc: "Rehat perlu, tapi jangan lupa objektif asal." },
+            { text: "Stop overthinking. Kau dah survive 100% hari-hari buruk kau sebelum ni. So chill, ambik nafas panjang-panjang, everything's gonna be alright.", category: "✨ Motivasi Moden", desc: "Percaya pada diri sendiri, you got this!" },
+            { text: "Kerja keras bagai nak rak, kadang-kadang rasa macam nak give up. Takpe, rezeki Allah tu luas. Biar penat kat dunia, rehat kat 'sana' nanti.", category: "💬 Realiti Kehidupan", desc: "Penat itu penghapus dosa kecil, teruskan melangkah." },
+            { text: "Slow progress is still progress. Tak payah gelabah tengok orang lain dah jauh, track kita berbeza. Janji tak berhenti melangkah.", category: "💬 Gen-Z Slang", desc: "Biar lambat asalkan selamat sampai." },
+
+            // 🔥 Perumpamaan / Metafora (Proverbs)
+            { text: "Genggam bara api biar sampai jadi arang.", category: "🔥 Perumpamaan", desc: "Kalau buat sesuatu kerja yang susah, buat sampai berjaya." },
+            { text: "Kadang-kadang kita kena jadi macam pokok. Gugur daunnya yang lama untuk beri ruang pada pucuk baru. Belajar melepaskan untuk terus berkembang.", category: "🍃 Metafora Kehidupan", desc: "Lepaskan kenangan pahit, sambut fasa baru." },
+            { text: "Bumi mana yang tidak ditimpa hujan, laut mana yang tidak bergelora. Janganlah terlalu bersedih apabila ditimpa musibah, kerana itu lumrah alam semesta.", category: "📜 Kiasan", desc: "Setiap manusia tidak lari daripada diuji." },
+            { text: "Kalau takut dilambung ombak, jangan berumah di tepi pantai. Kalau gentar berdepan ujian, usah bermimpi menggapai kejayaan yang besar.", category: "🔥 Perumpamaan", desc: "Kalau takut pada risiko, jangan dekati cabaran." },
+
+            // 📜 Klasik / Puitis (Classical/Poetic)
+            { text: "Patah tumbuh, hilang berganti. Yang berlalu biarkan pergi menjadi debu kenangan, kerana yang baru pasti akan tiba membawa sinar yang lebih terang.", category: "📜 Klasik", desc: "Jangan bersedih atas kehilangan." },
+            { text: "Masa itu ibarat mata pedang yang tajam. Jika engkau tidak memotongnya dengan amal dan usaha, ia pasti akan memotong masa depanmu dengan penyesalan.", category: "📜 Kiasan Puitis", desc: "Hargai masa sebelum ia memusnahkan peluangmu." },
+            
+            // ⚡ Pendek & Padat (Short & Punchy)
+            { text: "Kun Fayakun. Jadilah, maka jadilah ia.", category: "☪️ Mutiara Kata Pendek", desc: "Kuasa Tuhan tiada batasnya." },
+            { text: "Jatuh tujuh kali, bangun lapan kali.", category: "⚡ Pendek & Padat", desc: "Ketahanan jiwa." },
+            { text: "Usaha tak pernah khianat hasil.", category: "⚡ Pendek & Padat", desc: "Teruskan berjuang." }
+        ];
+
+        // DOM Elements
+        const quoteTextEl = document.getElementById('quote-text');
+        const quoteCategoryEl = document.getElementById('quote-category');
+        const quoteDescEl = document.getElementById('quote-desc');
+        const generateBtn = document.getElementById('generate-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const toast = document.getElementById('toast');
+
+        let currentQuote = "";
+
+        // Function to get a random quote
+        function getRandomQuote() {
+            // Prevent getting the exact same quote twice in a row
+            let randomIndex;
+            let selectedQuote;
+            do {
+                randomIndex = Math.floor(Math.random() * quotesDB.length);
+                selectedQuote = quotesDB[randomIndex];
+            } while (selectedQuote.text === currentQuote && quotesDB.length > 1);
+            
+            return selectedQuote;
+        }
+
+        // Function to display the quote with animations
+        function displayQuote() {
+            const data = getRandomQuote();
+            currentQuote = data.text; // Store for copy function & duplicate check
+
+            // Trigger enter animation (fade out slightly and slide)
+            quoteTextEl.classList.remove('quote-enter-active');
+            quoteTextEl.classList.add('quote-enter');
+            
+            quoteCategoryEl.style.opacity = 0;
+            quoteDescEl.style.opacity = 0;
+
+            // Wait a tiny bit for transition out, then update text and transition in
+            setTimeout(() => {
+                // Check if the quote has HTML tags (like Arabic spans). If so, don't wrap in quotes.
+                if (data.text.includes('<span')) {
+                    quoteTextEl.innerHTML = data.text;
+                } else {
+                    quoteTextEl.innerHTML = `"${data.text}"`;
+                }
+                
+                quoteCategoryEl.innerHTML = data.category;
+                quoteDescEl.innerHTML = `- ${data.desc} -`;
+
+                // Add different border colors based on category for aesthetics
+                if (data.category.includes('Islamic') || data.category.includes('Arab') || data.category.includes('Mutiara Kata')) {
+                    quoteCategoryEl.className = "bg-emerald-500/10 text-xs md:text-sm px-4 py-1.5 rounded-full mb-6 text-emerald-300 border border-emerald-500/30 uppercase tracking-widest font-semibold transition-all duration-500";
+                } else if (data.category.includes('Cinta') || data.category.includes('Romantis')) {
+                    quoteCategoryEl.className = "bg-rose-500/10 text-xs md:text-sm px-4 py-1.5 rounded-full mb-6 text-rose-300 border border-rose-500/30 uppercase tracking-widest font-semibold transition-all duration-500";
+                } else if (data.category.includes('Gen-Z') || data.category.includes('Realiti')) {
+                    quoteCategoryEl.className = "bg-purple-500/10 text-xs md:text-sm px-4 py-1.5 rounded-full mb-6 text-purple-300 border border-purple-500/30 uppercase tracking-widest font-semibold transition-all duration-500";
+                } else if (data.category.includes('Perumpamaan') || data.category.includes('Metafora')) {
+                    quoteCategoryEl.className = "bg-orange-500/10 text-xs md:text-sm px-4 py-1.5 rounded-full mb-6 text-orange-300 border border-orange-500/30 uppercase tracking-widest font-semibold transition-all duration-500";
+                } else if (data.category.includes('Klasik')) {
+                    quoteCategoryEl.className = "bg-amber-500/10 text-xs md:text-sm px-4 py-1.5 rounded-full mb-6 text-amber-300 border border-amber-500/30 uppercase tracking-widest font-semibold transition-all duration-500";
+                } else {
+                    quoteCategoryEl.className = "bg-pink-500/10 text-xs md:text-sm px-4 py-1.5 rounded-full mb-6 text-pink-300 border border-pink-500/30 uppercase tracking-widest font-semibold transition-all duration-500";
+                }
+
+                // Trigger fade in
+                quoteTextEl.classList.remove('quote-enter');
+                quoteTextEl.classList.add('quote-enter-active');
+                quoteCategoryEl.style.opacity = 1;
+                quoteDescEl.style.opacity = 1;
+            }, 300);
+            
+            // Add subtle haptic feedback for mobile devices (if supported)
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // Function to copy text to clipboard securely
+        function copyToClipboard() {
+            if (!currentQuote) return;
+
+            // Remove HTML tags for clipboard plain text copy
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = currentQuote;
+            const plainTextQuote = tempDiv.textContent || tempDiv.innerText || "";
+
+            const textToCopy = `"${plainTextQuote}"\n\n✨ Dapat vibes hari ni dekat Quote Generator Kita!`;
+
+            // Modern approach using clipboard API if available, fallback to execCommand
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(showToast);
+            } else {
+                // Fallback for iFrames or older browsers
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                textArea.style.position = "absolute";
+                textArea.style.left = "-999999px";
+                document.body.prepend(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast();
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    textArea.remove();
+                }
+            }
+
+            // Button visual feedback
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="ph-bold ph-check text-xl"></i> Copied!';
+            copyBtn.classList.add('bg-green-500/20', 'border-green-500/50');
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalHTML;
+                copyBtn.classList.remove('bg-green-500/20', 'border-green-500/50');
+            }, 2000);
+        }
+
+        // Custom Toast Notification function to avoid using alert()
+        function showToast() {
+            toast.className = "flex items-center gap-2 shadow-2xl show";
+            setTimeout(function(){ 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        }
+
+        // Event Listeners
+        generateBtn.addEventListener('click', displayQuote);
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // Optional: Generate quote on spacebar press (accessibility/desktop friendly)
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); // Prevent page scroll
+                displayQuote();
+            }
+        });
+
+        // Initialize with a quote right away (wait for load to ensure fonts/css render)
+        window.onload = () => {
+            setTimeout(displayQuote, 100);
+        };
+
+    </script>
+</body>
+</html>
